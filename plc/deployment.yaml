@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: deviceshifu-siemenss7
+  name: deviceshifu-siemenss7-deployment
+  namespace: deviceshifu
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: deviceshifu-siemenss7-deployment
+  template:
+    metadata:
+      labels:
+        app: deviceshifu-siemenss7-deployment
+    spec:
+      containers:
+      - image: edgehub/deviceshifu-http-http:v0.53.0
+        name: deviceshifu-http
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: deviceshifu-siemenss7-configmap
+          mountPath: /etc/edgedevice/config
+          readOnly: true
+        env:
+        - name: EDGEDEVICE_NAME
+          value: "deviceshifu-siemenss7-edgedevice"
+        - name: EDGEDEVICE_NAMESPACE
+          value: "devices"
+      - name: plc
+        image: edgenesis/siemens-s7:v0.0.1
+        ports:
+        - containerPort: 11111
+        env:
+        - name: PLC_ADDRESS
+          value: "bj-hikcamera-01.saifai.cn"
+        - name: PLC_RACK
+          value: "0"
+        - name: PLC_SLOT
+          value: "1"
+        - name: PLC_PORT
+          value: "40102"
+        - name: PLC_CONTAINER_PORT
+          value: "11111"
+        volumeMounts:
+      volumes:
+      - name: deviceshifu-siemenss7-configmap
+        configMap:
+          name: deviceshifu-siemenss7-configmap
+      serviceAccountName: edgedevice-sa

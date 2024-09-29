@@ -1,0 +1,12 @@
+apiVersion: shifu.edgenesis.io/v1alpha1
+kind: EdgeDevice
+metadata:
+  labels:
+    app: deviceshifu-siemenss7
+  name: deviceshifu-siemenss7-edgedevice
+  namespace: devices
+spec:
+  sku: "siemenss7"
+  connection: "Ethernet"
+  address: "0.0.0.0:11111"
+  protocol: "HTTP"

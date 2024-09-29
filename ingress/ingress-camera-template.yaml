@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hikvision-camera
+  namespace: deviceshifu
+  labels:
+    name: hikvision-camera
+spec:
+  ingressClassName: traefik
+  rules:
+  - http:
+      paths:
+      - pathType: Prefix
+        path: "/stream"
+        backend:
+          service:
+            name: deviceshifu-hikvisioncamera-service
+            port: 
+              number: 80

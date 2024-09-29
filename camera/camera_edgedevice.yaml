@@ -1,0 +1,14 @@
+apiVersion: shifu.edgenesis.io/v1alpha1
+kind: EdgeDevice
+metadata:
+  name: edgedevice-camera
+  namespace: devices
+spec:
+  sku: "hikvision"
+  connection: Ethernet
+  address: bj-hikcamera-01.saifai.cn:40554 #change this accordingly
+  protocol: TCP
+  protocolSettings:
+    TCPSetting:
+      NetworkType: tcp
+      ListenPort: "8081"

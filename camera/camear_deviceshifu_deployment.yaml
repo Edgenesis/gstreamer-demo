@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: deviceshifu-camera-deployment
+  name: deviceshifu-hikvision-deployment
+  namespace: deviceshifu
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: deviceshifu-camera-deployment
+  template:
+    metadata:
+      labels:
+        app: deviceshifu-camera-deployment
+    spec:
+      containers:
+      - image: edgehub/deviceshifu-tcp-tcp:v0.53.0
+        name: deviceshifu-hikvision
+        ports:
+        - containerPort: 8081
+        volumeMounts:
+        - name: deviceshifu-config
+          mountPath: "/etc/edgedevice/config"
+          readOnly: true
+        env:
+        - name: EDGEDEVICE_NAME
+          value: "edgedevice-camera"
+        - name: EDGEDEVICE_NAMESPACE
+          value: "devices"
+      volumes:
+      - name: deviceshifu-config
+        configMap:
+          name: camera-configmap-0.0.1
+      serviceAccountName: edgedevice-sa

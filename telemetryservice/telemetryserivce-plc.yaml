@@ -1,0 +1,13 @@
+apiVersion: shifu.edgenesis.io/v1alpha1
+kind: TelemetryService
+metadata:
+  labels:
+    app: plc
+  name: plc
+  namespace: devices
+spec:
+  telemetryServiceEndpoint: http://telemetryservice.shifu-service.svc.cluster.local
+  serviceSettings:
+    MQTTSetting:
+      MQTTServerAddress: mosquitto-service.devices.svc.cluster.local:1883
+      MQTTTopic: /siemens/s7

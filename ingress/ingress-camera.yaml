@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gstreamer-nginx
+  namespace: deviceshifu
+  labels:
+    name: gstreamer-nginx
+spec:
+  ingressClassName: traefik
+  rules:
+  - http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: gstreamer-nginx
+            port: 
+              number: 80
